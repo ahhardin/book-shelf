@@ -45,25 +45,51 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6 offset-md-3">
-        <span class="pagination pagination-next pull-right" style="display: none"><a href="#">next</a></span>
-        <span class="pagination pull-center" style="display:none"></span>
-        <span class="pagination pagination-prev pull-left" style="display: none"><a href="#">prev</a></span>
+        <div class="col-xs-12" style="height:50px;"></div>
       </div>
-
+    <div class="row">
+    <div class="col-md-4 offset-md-4 text-xs-center">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center" style="display:none">
+          <li class="page-item pagination-prev">
+            <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+          </li>
+          <li class="page-item first-page active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item second-page"><a class="page-link" href="#">2</a></li>
+          <li class="page-item third-page"><a class="page-link" href="#">3</a></li>
+          <li class="page-item fourth-page"><a class="page-link" href="#">4</a></li>
+          <li class="page-item fifth-page"><a class="page-link" href="#">5</a></li>
+          <li class="page-item pagination-next">
+            <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+          </li>
+        </ul>
+      </nav>
     </div>
+  </div>
+
+<div class="row">
     <div class="col-xs-12" style="height:50px;"></div>
+  </div>
+</div>
   </div>
 
 
   <script id="book-template" type="text/x-handlebars-template">
-    <div class="book col-md-6" style="text-align:center">
+    <div class="book col-md-6" id="{{bookId}}">
       <h4>{{ title }}</h4>
       <div>Author: <strong>{{ author }}</strong></div>
       <div>Pages: <strong>{{ pageCount }}</strong></div>
       <div>ISBN: <strong>{{ isbn }}</strong></div>
       <img src="{{imageURL}}" alt="" style="width:128px;height:200px;">
+      <button class="btn btn-primary add-book" type="button">Add to bookshelf</button>
     </div>
+
   </script>
 
   <!-- jQuery first, then Tether, then Bootstrap JS. -->

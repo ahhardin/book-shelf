@@ -1,5 +1,11 @@
 var books = [];
 page = 0
+pageNum = 1
+
+$('.add-book').on('click', function() {
+  console.log("hi");
+  console.log($(this).attr('id'));
+});
 
 $('.search').on('click', function() {
   page = 0
@@ -7,34 +13,41 @@ $('.search').on('click', function() {
   $(".books").hide()
   var search = $('#search-query').val();
 
-  fetch(search,0);
+  fetch(search, 0);
 });
 
-$('.pagination-next').on('click', function() {
-  $(".spinner").show()
-  $(".books").hide()
-  var search = $('#search-query').val();
-  page+=1
-  pageIndex = parseInt(page)*10
-  fetch(search,pageIndex);
-  $('.pagination-prev').show()
-  console.log(page)
-});
-
-$('.pagination-prev').on('click', function() {
-  $(".spinner").show()
-  $(".books").hide()
-  var search = $('#search-query').val();
-  page -= 1
-  if (page == 0) {
-    $('.pagination-prev').hide()
+$('.page-item').on('click', function() {
+  if ($(this).hasClass("disabled")) {
+    return
+  } else if ($(this).hasClass("pagination-prev")) {
+    page = parseInt(page) - 1
+    pageNum = page + 1
+  } else if ($(this).hasClass("pagination-next")) {
+    page = parseInt(page) + 1
+    pageNum = page + 1
+  } else {
+    pageNum = $(this).children().text()
+    page = parseInt(pageNum) - 1
   }
-  pageIndex = parseInt(page)*10
-  fetch(search,pageIndex);
+  if (page > 2) {
+    pageNum = parseInt(page) + 1
+    $('.first-page').children().text(pageNum - 2);
+    $('.second-page').children().text(pageNum - 1);
+    $('.third-page').children().text(pageNum);
+    $('.fourth-page').children().text(pageNum + 1);
+    $('.fifth-page').children().text(pageNum + 2);
+  }
   console.log(page)
-});
+  $('.page-item').removeClass("active")
+  $(`.page-item:contains(${pageNum})`).addClass("active")
+  $(".spinner").show()
+  $(".books").hide()
+  var search = $('#search-query').val();
+  pageIndex = parseInt(page) * 10
+  fetch(search, pageIndex);
+})
 
-var fetch = function(query,pageIndex) {
+var fetch = function(query, pageIndex) {
   transformedQuery = query.replace(/\s/g, "+");
   $.ajax({
     method: "GET",
@@ -54,16 +67,24 @@ var fetch = function(query,pageIndex) {
 
 var renderBooks = function() {
   $('.books').empty();
-  console.log(books)
   var source = $('#book-template').html();
   var template = Handlebars.compile(source);
 
   for (var i = 0; i < books.length; i++) {
     var newHTML = template(books[i]);
     $('.books').append(newHTML);
-  }
-  $(".pagination-next").show()
 
+  }
+  $(".pagination").show()
+  if (page == 0) {
+    $('.pagination-prev').addClass("disabled")
+  } else {
+    $('.pagination-prev').removeClass("disabled")
+  }
+  $('.add-book').on('click', function(event1) {
+    event.stopImmediatePropagation
+    console.log($(this).parent().attr('id'));
+  });
 };
 
 var addBooks = function(data) {
@@ -117,7 +138,8 @@ var addBooks = function(data) {
       author: author(),
       imageURL: imageURL(),
       pageCount: pageCount(),
-      isbn: isbn()
+      isbn: isbn(),
+      bookId: i
     };
 
     books.push(book);

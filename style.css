@@ -6,3 +6,16 @@
   margin-top: 40px;
   margin-bottom: 40px;
 }
+
+.book {
+  text-align:center;
+  border-style:solid;
+  border-color:lightgray;
+  border-collapse: collapse;
+  border-width: thin;
+  padding: 32px;
+}
+
+.add-book {
+    margin-top: 10px
+}
