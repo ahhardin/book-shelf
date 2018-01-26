@@ -83,7 +83,8 @@ var renderBooks = function() {
   }
   $('.add-book').on('click', function(event1) {
     event.stopImmediatePropagation
-    console.log($(this).parent().attr('id'));
+    bookId = $(this).parent().attr('id');
+    localStorage.setItem('book',books[bookId]);
   });
 };
 
